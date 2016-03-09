@@ -7,6 +7,7 @@
  */
 
 namespace TravelTips;
+use PDO;
 
 /**
  * Class Controller
@@ -15,20 +16,57 @@ namespace TravelTips;
 class Controller
 {
     private $dbh;
-    private $user;
     private $gClient;
 
     /**
      * Controller constructor.
-     * @param User $user
-     * @param \Google_Client $gClient
      */
-    public function __construct(User $user, \Google_Client $gClient)
+    public function __construct()
     {
         $this->dbh = Database::getInstance();
-        $this->user = $user;
-        $this->gClient = $gClient;
     }
 
+    /**
+     * @param mixed $gClient
+     * @return Controller
+     */
+    public function setGClient($gClient)
+    {
+        $this->gClient = $gClient;
+        return $this;
+    }
 
+    public function getAllCountries()
+    {
+        $stmt = $this->dbh
+            ->prepare('SELECT Countries.CountryId,
+                        Countries.Name,
+                        (SELECT COUNT(Tips.CountryId)
+                            FROM Tips
+                            WHERE Tips.TipId = CountryId) AS TipsCount
+                        FROM Countries;');
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getCountriesFiltered($name)
+    {
+        if (!empty($name)) {
+            $query = '%' . $name . '%';
+        }
+
+        $stmt = $this->dbh
+            ->prepare('SELECT Countries.CountryId,
+                        Countries.Name,
+                        (SELECT COUNT(Tips.CountryId)
+                            FROM Tips
+                            WHERE Tips.TipId = CountryId) AS TipsCount
+                        FROM Countries
+                        WHERE Countries.Name LIKE :CountryQuery');
+        $stmt->bindParam(":CountryQuery", $query);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

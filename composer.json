@@ -14,10 +14,8 @@
     "monolog/monolog": "^1.18"
   },
   "autoload": {
-    "autoload": {
-      "psr-r": {
-        "TravelTips\\": "TravelTips/"
-      }
+    "psr-4": {
+      "TravelTips\\": "TravelTips/"
     }
   }
 }

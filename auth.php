@@ -9,19 +9,13 @@ require_once "vendor/autoload.php";
 
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use TravelTips\Helper;
 use TravelTips\User;
 
 session_start();
 
 // Handler that converts errors to JSON objects so the Java client can do something with it
-set_exception_handler(function (Exception $e) {
-    echo json_encode([
-        "status" => "failure",
-        "type" => "Exception",
-        "response" => $e->getMessage()
-    ]);
-    die;
-});
+set_exception_handler(Helper::getExceptionHandler());
 
 $log = new Logger('Auth');
 $log->pushHandler(new StreamHandler($_SERVER['DOCUMENT_ROOT'] . '/logs/auth.log', Logger::DEBUG));
@@ -31,15 +25,18 @@ $gClient->setAuthConfigFile('client_secret.json');
 
 $response = [];
 
-if (($payload = $gClient->verifyIdToken($_POST['token']))) {
+if (isset($_POST['token'])
+    && !empty($_POST['token'])
+    && ($payload = $gClient->verifyIdToken($_POST['token']))
+) {
     $user = User::fromPayload($payload);
     $response["status"] = "success";
     $response["response"] = $user;
 
     $_SESSION['user'] = $user;
-    $_SESSION['isAuthenticated'] = true;
+    $log->addDebug("Successfully authenticated user with Email " . $user->email);
 } else {
-    header("HTTP/1.0 403 Forbidden");
+    $log->addDebug("Failed to authenticate user with IP " . $_SERVER['REMOTE_ADDR']);
     $response["status"] = "failure";
     $response["type"] = "AuthFailure";
     $response["response"] = "Failed to verify token";
