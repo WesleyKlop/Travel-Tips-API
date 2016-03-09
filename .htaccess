@@ -1,1 +1,4 @@
-# Nothing yet
+<Files "client_secret.json">
+    Order Allow,Deny
+    Deny from all
+</Files>

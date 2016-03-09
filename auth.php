@@ -32,9 +32,10 @@ $gClient->setAuthConfigFile('client_secret.json');
 $response = [];
 
 if (($payload = $gClient->verifyIdToken($_POST['token']))) {
-    $response["status"] = "success";
-    $response["response"] = $payload;
     $user = User::fromPayload($payload);
+    $response["status"] = "success";
+    $response["response"] = $user;
+
     $_SESSION['user'] = $user;
     $_SESSION['isAuthenticated'] = true;
 } else {
