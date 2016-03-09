@@ -1,0 +1,12 @@
+{
+  "name": "WesleyKlop/TravelTips",
+  "description": "Ap24-28",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Wesley Klop",
+      "email": "wesley19097@gmail.com"
+    }
+  ]
+}
