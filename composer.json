@@ -8,5 +8,16 @@
       "name": "Wesley Klop",
       "email": "wesley19097@gmail.com"
     }
-  ]
+  ],
+  "require": {
+    "google/apiclient": "2.x-dev",
+    "monolog/monolog": "^1.18"
+  },
+  "autoload": {
+    "autoload": {
+      "psr-r": {
+        "TravelTips\\": "TravelTips/"
+      }
+    }
+  }
 }

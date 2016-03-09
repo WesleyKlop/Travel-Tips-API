@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="Always" promptOnRemoteOverwrite="CHECK_TIMESTAMP" serverName="ap24-28" stopOnFirstError="true" createEmptyFolders="true" uploadOnCheckin="62ac3361-3469-4fdc-b1bd-50e6d4be08ee" exclude=".svn;.cvs;.idea;.DS_Store;.git;.hg;.gitignore" autoUploadExternalChanges="true" notifyRemoteChanges="true">
+    <serverData>
+      <paths name="ap24-28">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/public_html/api" local="$PROJECT_DIR$" web="/api" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myUploadOnCheckinName" value="ap24-28" />
+    <option name="myAutoUpload" value="ALWAYS" />
+  </component>
+</project>

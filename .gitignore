@@ -25,4 +25,4 @@ vendor/
 .Trash-*
 
 client_secret.json
-Database.php
+TravelTips/Database.php
