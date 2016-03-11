@@ -7,6 +7,7 @@
  */
 
 namespace TravelTips;
+
 use PDO;
 
 /**
@@ -38,13 +39,17 @@ class Controller
 
     public function getAllCountries()
     {
-        $stmt = $this->dbh
-            ->prepare('SELECT Countries.CountryId,
-                        Countries.Name,
-                        (SELECT COUNT(Tips.CountryId)
-                            FROM Tips
-                            WHERE Tips.TipId = CountryId) AS TipsCount
-                        FROM Countries;');
+        $stmt = $this->dbh->prepare(
+            "SELECT
+              Countries.CountryId,
+              Countries.Name,
+              (SELECT COUNT(*)
+               FROM Tips
+               WHERE Tips.CountryId = Countries.CountryId) AS TipsCount
+            FROM Countries
+            ORDER BY TipsCount DESC, Countries.Name ASC;"
+
+        );
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -52,19 +57,37 @@ class Controller
 
     public function getCountriesFiltered($name)
     {
-        if (!empty($name)) {
-            $query = '%' . $name . '%';
-        }
+        $query = '%' . $name . '%';
 
-        $stmt = $this->dbh
-            ->prepare('SELECT Countries.CountryId,
-                        Countries.Name,
-                        (SELECT COUNT(Tips.CountryId)
-                            FROM Tips
-                            WHERE Tips.TipId = CountryId) AS TipsCount
-                        FROM Countries
-                        WHERE Countries.Name LIKE :CountryQuery');
+        $stmt = $this->dbh->prepare(
+            'SELECT
+              Countries.CountryId,
+              Countries.Name,
+              (SELECT COUNT(*)
+               FROM Tips
+               WHERE Tips.CountryId = Countries.CountryId) AS TipsCount
+            FROM Countries
+            WHERE Countries.Name LIKE :CountryQuery
+            ORDER BY TipsCount DESC, Countries.Name ASC;'
+        );
         $stmt->bindParam(":CountryQuery", $query);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getCountryTips($country)
+    {
+        $stmt = $this->dbh->prepare(
+            'SELECT
+                  TipId,
+                  Title,
+                  Message
+                FROM Tips
+                WHERE CountryId = :CountryId;'
+        );
+
+        $stmt->bindParam(':CountryId', $country);
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

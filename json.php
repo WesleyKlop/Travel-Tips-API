@@ -26,13 +26,19 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
 
     switch (Helper::getAction()) {
         case "countries":
-            if (isset($_GET['name'])) {
+            if (isset($_GET['name']) &&
+                !empty($_GET['name'])
+            ) {
                 $response = $controller->getCountriesFiltered($_GET['name']);
                 $status = "success";
             } else {
                 $response = $controller->getAllCountries();
                 $status = "success";
             }
+            break;
+        case "tips":
+            $response = $controller->getCountryTips($_GET['country']);
+            $status = "success";
             break;
         default:
             $response = "No action submitted";
