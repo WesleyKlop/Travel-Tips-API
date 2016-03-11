@@ -25,6 +25,16 @@ class Helper
         return false;
     }
 
+    public static function postAction()
+    {
+        if (isset($_POST['action'])
+            && !empty($_POST['action'])
+        ) {
+            return $_POST['action'];
+        }
+        return false;
+    }
+
     /**
      * Returns a callable that prints the exception in the JSONObject format
      *
@@ -32,10 +42,11 @@ class Helper
      */
     public static function getExceptionHandler()
     {
-        return function (\Exception $e) {
+        /** @param \Exception $e */
+        return function ($e) {
             die(json_encode([
                 "status" => "failure",
-                "type" => "Exception",
+                "type" => get_class($e),
                 "response" => $e->getMessage()
             ]));
         };

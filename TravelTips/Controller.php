@@ -9,6 +9,7 @@
 namespace TravelTips;
 
 use PDO;
+use RuntimeException;
 
 /**
  * Class Controller
@@ -91,5 +92,45 @@ class Controller
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function postCountryTip($country, $title, $message)
+    {
+        if (empty($country)
+            || empty($title)
+        )
+            throw new RuntimeException("Missing parameters");
+
+        $stmt = $this->dbh->prepare(
+            'INSERT INTO
+              Tips (CountryId, Title, Message)
+            VALUES
+              (:CountryId, :Title, :Message);'
+        );
+
+        $stmt->bindParam(":CountryId", $country);
+        $stmt->bindParam(":Title", $title);
+        $stmt->bindParam(":Message", $message);
+
+        return $stmt->execute()
+            ? "Successfully added tip with ID " . $this->dbh->lastInsertId()
+            : "Error executing query";
+    }
+
+    public function checkCountryIdExists($id)
+    {
+        if (empty($id)) {
+            throw new RuntimeException("Missing parameter id");
+        }
+        $stmt = $this->dbh->prepare(
+            'SELECT CountryId
+            FROM Countries
+            WHERE CountryId = :CountryId;'
+        );
+        $stmt->bindParam(':CountryId', $id);
+
+        $stmt->execute();
+
+        return ($stmt->rowCount() > 0) ? "Country exists" : "Country doesn't exist";
     }
 }

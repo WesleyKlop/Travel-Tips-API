@@ -31,8 +31,13 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
             ) {
                 $response = $controller->getCountriesFiltered($_GET['name']);
                 $status = "success";
-            } else {
-                $response = $controller->getAllCountries();
+                break;
+            }
+            $response = $controller->getAllCountries();
+            $status = "success";
+            break;
+        case "countryExists":
+            if (($response = $controller->checkCountryIdExists($_GET['id'])) === true) {
                 $status = "success";
             }
             break;
@@ -41,13 +46,26 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
             $status = "success";
             break;
         default:
-            $response = "No action submitted";
+            $response = "No action given";
             break;
     }
 
 } elseif ($_SERVER['REQUEST_METHOD'] === "POST") {
+    /*
+     * For any post request the user needs to be authenticated
+     */
+    if (!Helper::isUserAuthenticated()) {
+        throw new \TravelTips\AuthenticationException("User isn't authenticated!");
+    }
 
-    // TODO: Create actions for POST
+    switch (Helper::postAction()) {
+        case "tips":
+            $response = $controller->postCountryTip($_POST['country'], $_POST['title'], $_POST['message']);
+            break;
+        default:
+            $response = "No action given";
+            break;
+    }
 
 }
 
@@ -60,6 +78,7 @@ if ($json === false) {
     ]);
     if ($json === false) {
         // THIS SHOULD NEVER HAPPEN!? WTF!?
+
         $json = '{"status": "failure", "response": "You should really now see this, please report how you did this!"}';
     }
 }
