@@ -114,7 +114,7 @@ class Controller
 
         return $stmt->execute()
             ? "Successfully added tip with ID " . $this->dbh->lastInsertId()
-            : "Error executing query";
+            : false;
     }
 
     public function checkCountryIdExists($id)

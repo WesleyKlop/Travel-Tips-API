@@ -22,9 +22,9 @@ $response = [];
 
 if (isset($_POST['token'])
     && !empty($_POST['token'])
-    && ($payload = $gClient->verifyIdToken($_POST['token']))
+    && ($ticket = $gClient->verifyIdToken($_POST['token']))
 ) {
-    $user = User::fromPayload($payload);
+    $user = User::fromTicket($ticket);
     $response["status"] = "success";
     $response["response"] = $user;
 

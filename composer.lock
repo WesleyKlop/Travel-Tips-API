@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d522c4714b9b682fa46acdedc48f61d2",
-    "content-hash": "cbae440e431f8b47c5d0a6c736dae877",
+    "hash": "7d5113b0b46d2991b40a0d225a717e5e",
+    "content-hash": "0e0c00227d746b93f92e30cb6723aef4",
     "packages": [
         {
             "name": "firebase/php-jwt",
@@ -52,46 +52,34 @@
         },
         {
             "name": "google/apiclient",
-            "version": "dev-master",
+            "version": "1.1.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/google/google-api-php-client.git",
-                "reference": "87dff9908464b150334283cd092d7d96e0dcc5bf"
+                "reference": "400f250a30ae1dd4c4a0a4f750fe973fc70e6311"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/google/google-api-php-client/zipball/87dff9908464b150334283cd092d7d96e0dcc5bf",
-                "reference": "87dff9908464b150334283cd092d7d96e0dcc5bf",
+                "url": "https://api.github.com/repos/google/google-api-php-client/zipball/400f250a30ae1dd4c4a0a4f750fe973fc70e6311",
+                "reference": "400f250a30ae1dd4c4a0a4f750fe973fc70e6311",
                 "shasum": ""
             },
             "require": {
-                "firebase/php-jwt": "~2.0|~3.0",
-                "google/auth": "0.7",
-                "guzzlehttp/guzzle": "~5.2|~6.0",
-                "guzzlehttp/psr7": "1.2.*",
-                "monolog/monolog": "^1.17",
-                "php": ">=5.4",
-                "phpseclib/phpseclib": "~2.0",
-                "psr/http-message": "1.0.*"
+                "php": ">=5.2.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "~4",
-                "squizlabs/php_codesniffer": "~2.3",
-                "symfony/css-selector": "~2.0",
-                "symfony/dom-crawler": "~2.0"
+                "phpunit/phpunit": "3.7.*",
+                "squizlabs/php_codesniffer": "~2.3"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.x-dev"
+                    "dev-master": "1.1.x-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "Google_": "src/"
-                },
                 "classmap": [
-                    "src/Google/Service/"
+                    "src/"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -103,7 +91,7 @@
             "keywords": [
                 "google"
             ],
-            "time": "2016-03-05 02:40:17"
+            "time": "2016-02-02 18:50:42"
         },
         {
             "name": "google/auth",
@@ -581,9 +569,7 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "google/apiclient": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

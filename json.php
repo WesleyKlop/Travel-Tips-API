@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
 
 } elseif ($_SERVER['REQUEST_METHOD'] === "POST") {
     /*
-     * For any post request the user needs to be authenticated
+     * For any POST request the user needs to be authenticated
      */
     if (!Helper::isUserAuthenticated()) {
         throw new \TravelTips\AuthenticationException("User isn't authenticated!");
@@ -61,6 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] === "GET") {
     switch (Helper::postAction()) {
         case "tips":
             $response = $controller->postCountryTip($_POST['country'], $_POST['title'], $_POST['message']);
+            if(is_string($response))
+                $status = "success";
             break;
         default:
             $response = "No action given";

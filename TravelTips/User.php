@@ -54,6 +54,17 @@ class User implements \JsonSerializable
     }
 
     /**
+     * @param \Google_Auth_LoginTicket $ticket
+     * @return User
+     */
+    public static function fromTicket($ticket)
+    {
+        $payload = $ticket->getAttributes()["payload"];
+        return self::fromPayload($payload);
+
+    }
+
+    /**
      * Specify data which should be serialized to JSON
      * @link http://php.net/manual/en/jsonserializable.jsonserialize.php
      * @return mixed data which can be serialized by <b>json_encode</b>,

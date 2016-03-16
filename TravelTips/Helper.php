@@ -42,13 +42,16 @@ class Helper
      */
     public static function getExceptionHandler()
     {
-        /** @param \Exception $e */
+        /** @param \Exception|AuthenticationException $e */
         return function ($e) {
-            die(json_encode([
+            $response = [
                 "status" => "failure",
                 "type" => get_class($e),
-                "response" => $e->getMessage()
-            ]));
+                "response" => $e->getMessage(),
+                "session" => $_SESSION,
+                "session_started" => session_status() == PHP_SESSION_ACTIVE
+            ];
+            die(json_encode($response));
         };
     }
 

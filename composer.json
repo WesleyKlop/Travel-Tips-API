@@ -10,8 +10,8 @@
     }
   ],
   "require": {
-    "google/apiclient": "2.x-dev",
-    "monolog/monolog": "^1.18"
+    "monolog/monolog": "^1.18",
+    "google/apiclient": "1.1.7"
   },
   "autoload": {
     "psr-4": {
